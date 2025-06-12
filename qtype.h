@@ -9,7 +9,7 @@ typedef void* Value;
 typedef struct {
     Key key;
     Value value;
-    int value_size; 
+    int value_size;
 } Item;
 
 typedef struct {
@@ -24,8 +24,9 @@ typedef struct node_t {
 
 typedef struct {
     Node* head;
-    Node* tail;           // tail 포인터 추가
-    std::mutex lock;
+    Node* tail;
+    std::mutex head_lock;  // 락 분리 - head 락 추가
+    std::mutex tail_lock;  // 락 분리 - tail 락 추가
 } Queue;
 
 #endif

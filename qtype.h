@@ -9,6 +9,7 @@ typedef void* Value;
 typedef struct {
     Key key;
     Value value;
+    int value_size; // byte
 } Item;
 
 typedef struct {

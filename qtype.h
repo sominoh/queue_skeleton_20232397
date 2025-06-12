@@ -1,19 +1,19 @@
-#ifndef _QTYPE_H
+#ifndef _QTYPE_H  
 #define _QTYPE_H
 
-#include <mutex> // mutex 추가
+#include <mutex>
 
-typedef unsigned int Key;  
+typedef unsigned int Key;
 typedef void* Value;
 
 typedef struct {
     Key key;
     Value value;
-    int value_size; // byte
+    int value_size; 
 } Item;
 
 typedef struct {
-    bool success;   
+    bool success;
     Item item;
 } Reply;
 
@@ -24,7 +24,8 @@ typedef struct node_t {
 
 typedef struct {
     Node* head;
-    std::mutex lock; // thread-safe를 위한 뮤텍스 추가
+    Node* tail;           // tail 포인터 추가
+    std::mutex lock;
 } Queue;
 
 #endif

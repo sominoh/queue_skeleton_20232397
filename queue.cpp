@@ -19,7 +19,7 @@ void release(Queue* queue) {
             nfree(curr);
             curr = next;
         }
-    } // lock 해제 이후 안전하게 delete
+    }
     delete queue;
 }
 
@@ -27,21 +27,13 @@ Node* nalloc(Item item) {
     Node* node = new Node;
     node->item.key = item.key;
     node->item.value_size = item.value_size;
-    if (item.value_size > 0 && item.value != nullptr) {
-        node->item.value = malloc(item.value_size);
-        memcpy(node->item.value, item.value, item.value_size);
-    }
-    else {
-        node->item.value = nullptr;
-    }
+    node->item.value = item.value;  // 그냥 포인터 저장
     node->next = nullptr;
     return node;
 }
 
 void nfree(Node* node) {
-    if (node->item.value != nullptr) {
-        free(node->item.value);
-    }
+    // node->item.value는 malloc으로 생성되지 않음
     delete node;
 }
 
@@ -57,12 +49,8 @@ Reply enqueue(Queue* queue, Item item) {
 
     while (curr) {
         if (curr->item.key == item.key) {
-            if (curr->item.value != nullptr) {
-                free(curr->item.value);
-            }
+            curr->item.value = item.value;
             curr->item.value_size = item.value_size;
-            curr->item.value = malloc(item.value_size);
-            memcpy(curr->item.value, item.value, item.value_size);
             return { true, curr->item };
         }
         if (item.key > curr->item.key) break;
@@ -96,13 +84,7 @@ Reply dequeue(Queue* queue) {
     Item item;
     item.key = node->item.key;
     item.value_size = node->item.value_size;
-    if (item.value_size > 0 && node->item.value != nullptr) {
-        item.value = malloc(item.value_size);
-        memcpy(item.value, node->item.value, item.value_size);
-    }
-    else {
-        item.value = nullptr;
-    }
+    item.value = node->item.value;
 
     nfree(node);
     return { true, item };
@@ -124,4 +106,3 @@ Queue* range(Queue* queue, Key start, Key end) {
 
     return new_queue;
 }
-

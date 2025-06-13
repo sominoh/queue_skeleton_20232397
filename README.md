@@ -4,7 +4,7 @@
 - 이름: 오소민
 - 학번: 20232397
 
-## 구현 내용 
+## 진행 상황
 
 - 요구된 함수들 (`init`, `release`, `enqueue`, `dequeue`, `range`, `nalloc`, `nclone`, `nfree`) 구현 완료
 - thread, mutex, atomic 기능만 사용하여 thread-safe한 우선순위 큐 구현
